@@ -22,22 +22,34 @@ void InitPlayer(Player *p) {
 }
 
 // Handling real-time keyboard inputs and position recalculation
-void UpdatePlayer(Player *p, float delta) {
-    // Basic direction updates based on keyboard state
-    // Multiplied by delta time to ensure smooth movement at any framerate
-    if (IsKeyDown(KEY_W)) {
+void UpdatePlayer(Player *p, float delta)
+{
+    if (IsKeyDown(KEY_W))
         p->y -= p->speed * delta;
-    }
-    if (IsKeyDown(KEY_S)) {
+
+    if (IsKeyDown(KEY_S))
         p->y += p->speed * delta;
-    }
-    if (IsKeyDown(KEY_A)) {
+
+    if (IsKeyDown(KEY_A))
         p->x -= p->speed * delta;
-    }
-    if (IsKeyDown(KEY_D)) {
+
+    if (IsKeyDown(KEY_D))
         p->x += p->speed * delta;
-    }
-    
+
+
+    // Screen boundaries
+
+    if(p->x < 0)
+        p->x = 0;
+
+    if(p->y < 0)
+        p->y = 0;
+
+    if(p->x > 800 - p->width)
+        p->x = 800 - p->width;
+
+    if(p->y > 600 - p->height)
+        p->y = 600 - p->height;
 }
 
 // Render the player character onto the current frame
