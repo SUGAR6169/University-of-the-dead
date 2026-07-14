@@ -1,7 +1,7 @@
 #include "player.h"
 #include "raylib.h"
 
-// Initialize the player's starting attributes
+//Initialize the player's starting attributes
 void InitPlayer(Player *p) {
 
     p->x = 200.0f;
@@ -20,7 +20,7 @@ void InitPlayer(Player *p) {
     p->hasMosqueKey = 0;
 }
 
-// Handling real-time keyboard inputs and position recalculation
+// For Handling real-time keyboard inputs and position recalculation
 void UpdatePlayer(Player *p, float delta)
 {
     if (IsKeyDown(KEY_W))
@@ -52,6 +52,7 @@ void UpdatePlayer(Player *p, float delta)
 
 // Render the player character onto the current frame
 void DrawPlayer(Player *p) {
+    
     // Green Square for the presentation prototype
     DrawRectangle((int)p->x, (int)p->y, p->width, p->height, GREEN);
 }
