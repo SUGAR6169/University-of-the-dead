@@ -3,8 +3,7 @@
 
 //Initialize the player's starting attributes
 void InitPlayer(Player *p) {
-    
-    //This will later be dynamically set based on the map's spawn tile
+
     p->x = 200.0f;
     p->y = 200.0f;
     
