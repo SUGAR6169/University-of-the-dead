@@ -4,6 +4,8 @@ SET PATH=C:\raylib\w64devkit\bin;%PATH%
 gcc ^
 src\main.c ^
 src\player.c ^
+src\menu.c ^
+src\timer.c ^
 -o game.exe ^
 -IC:\raylib\include ^
 -LC:\raylib\lib ^
