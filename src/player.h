@@ -1,16 +1,18 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-//Player structure
+// Player structure
 typedef struct {
-    float x, y;           // Position on the screen in pixels
+    float x, y;           // Position on the map in pixels
+    float w, h;           // Dimensions for collision detection (MUST be float for Raylib Rectangles)
     float speed;          // Normal walking speed
-    float stamina;        // Value from 0.0f to 100.0f
+    float stamina;        // Stamina value 0.0f-100.0f
     int   isRunning;      // Boolean: 1 if sprinting, 0 if walking
-    int   width, height;  // Dimensions of the bounding box for collision detection
     int   health;         // Player health state (1 = alive, 0 = dead)
-    int   hasMosqueKey;   // Inventory item flag: 0 or 1 for the locked door puzzle
 } Player;
+
+// Make the global player instance visible to main.c and other files
+extern Player player;
 
 // Sets up initial coordinates, speed, and default stats
 void InitPlayer(Player *p);
@@ -18,7 +20,7 @@ void InitPlayer(Player *p);
 // Processes WASD input, adjusts coordinates, and calculates delta-time movement
 void UpdatePlayer(Player *p, float delta);
 
-// Renders the player character visual placeholder onto the screen
+// Render player character visual placeholder
 void DrawPlayer(Player *p);
 
 #endif // PLAYER_H
