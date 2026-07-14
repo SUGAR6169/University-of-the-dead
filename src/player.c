@@ -3,8 +3,7 @@
 
 // Initialize the player's starting attributes
 void InitPlayer(Player *p) {
-    // Hardcoded initial position for the MVP demo
-    // This will later be dynamically set based on the map's spawn tile
+
     p->x = 200.0f;
     p->y = 200.0f;
     
@@ -38,7 +37,6 @@ void UpdatePlayer(Player *p, float delta)
 
 
     // Screen boundaries
-
     if(p->x < 0)
         p->x = 0;
 
