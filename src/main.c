@@ -6,8 +6,8 @@
 #include "hud.h"
 #include "menu.h"
 
-#define SCREEN_W 960
-#define SCREEN_H 640
+#define SCREEN_W 1920
+#define SCREEN_H 1280
 
 // Game states
 typedef enum {
@@ -24,7 +24,7 @@ GameState gameState = STATE_MENU;
 int debugMode = 0;
 
 int main(void) {
-    InitWindow(SCREEN_W, SCREEN_H, "Madrasah of the Dead");
+    InitWindow(SCREEN_W, SCREEN_H, "University of the Dead");
     SetTargetFPS(60); // 60 FPS provides stable physics processing for bounding boxes
 
     // Declare core game objects
