@@ -38,6 +38,8 @@ int main(void) {
         // Create the fullscreen game window
         InitWindow(0, 0, "University of the Dead");
 
+        SetExitKey(KEY_NULL);
+
         // Get the actual screen resolution being used
         int screenWidth = GetScreenWidth();
         int screenHeight = GetScreenHeight();
@@ -131,6 +133,7 @@ int main(void) {
 
                     if (IsKeyPressed(KEY_ESCAPE))
                     {
+                        menuSelection = 0;
                         gameState = STATE_MENU;
                     }
 
