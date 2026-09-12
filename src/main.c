@@ -5,6 +5,7 @@
 #include "timer.h"
 #include "hud.h"
 #include "menu.h"
+#include "leaderboard.h"
 
 // #define SCREEN_W 1920
 // #define SCREEN_H 1280
@@ -22,6 +23,11 @@ GameState gameState = STATE_MENU;
 
 // Global debug toggle
 int debugMode = 0;
+
+/* Leaderboard name entry */
+char playerName[PLAYER_NAME_LENGTH] = "";
+int nameLength = 0;
+int scoreSubmitted = 0;
 
 int main(void) {
 
@@ -45,6 +51,7 @@ int main(void) {
     LoadMapData();
     InitPlayer(&player);  
     InitTimer(&timer, 30.0f); // Set to 30 seconds initial countdown
+    InitLeaderboard();
 
     // Set up Camera2D — this follows the player
     Camera2D camera = {0};
@@ -71,6 +78,17 @@ int main(void) {
                 if (IsKeyPressed(KEY_ENTER)) {
                     gameState = STATE_PLAYING;
                     camera.zoom = 0.65f; // Zoom in tightly on the player for active gameplay
+
+                     /* Start a fresh game */
+                    InitPlayer(&player);
+                    InitTimer(&timer, 30.0f);
+
+                    player.x = 3000.0f;
+                    player.y = 2200.0f;
+
+                    nameLength = 0;
+                    playerName[0] = '\0';
+                    scoreSubmitted = 0;
                 }
                 break;
 
@@ -160,15 +178,53 @@ int main(void) {
                 break;
             }
 
-            // ── WIN SCREEN ──
+           // ── WIN STATE ──
             case STATE_WIN: {
-                int fontSize = 80;
-                const char* text = "YOU WIN!";
-                int textWidth = MeasureText(text, fontSize);
-                
-                // Draw centered on screen
-                DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(GREEN, 0.6f));
-                DrawText(text, (GetScreenWidth() - textWidth) / 2, GetScreenHeight() / 2 - 40, fontSize, WHITE);
+
+                /* Get characters typed by the player */
+                int key = GetCharPressed();
+
+                while (key > 0)
+                {
+                    /* Accept normal printable characters */
+                    if (key >= 32 &&
+                        key <= 125 &&
+                        nameLength < PLAYER_NAME_LENGTH - 1)
+                    {
+                        playerName[nameLength] = (char)key;
+                        nameLength++;
+
+                        /* Keep the string terminated */
+                        playerName[nameLength] = '\0';
+                    }
+
+                    key = GetCharPressed();
+                }
+
+                /* Delete the last character */
+                if (IsKeyPressed(KEY_BACKSPACE) && nameLength > 0)
+                {
+                    nameLength--;
+                    playerName[nameLength] = '\0';
+                }
+
+                /* Submit score */
+                if (IsKeyPressed(KEY_ENTER) &&
+                    nameLength > 0 &&
+                    scoreSubmitted == 0)
+                {
+                    AddLeaderboardScore(playerName, timer.timeLeft);
+
+                    scoreSubmitted = 1;
+                }
+
+                /* Return to main menu after submitting */
+                if (scoreSubmitted &&
+                    IsKeyPressed(KEY_ESCAPE))
+                {
+                    gameState = STATE_MENU;
+                }
+
                 break;
             }
         }
@@ -205,11 +261,127 @@ int main(void) {
         }
 
         // Route render pipeline execution based on current structural game state
-        if (gameState == STATE_PLAYING)  DrawHUD(&player, &timer);
-        if (gameState == STATE_PAUSED)   DrawPauseMenu();
-        if (gameState == STATE_MENU)     DrawMainMenu();
-        if (gameState == STATE_GAMEOVER) DrawGameOver();
-        if (gameState == STATE_WIN)      DrawWinScreen();
+        if (gameState == STATE_PLAYING)
+    DrawHUD(&player, &timer);
+
+if (gameState == STATE_PAUSED)
+    DrawPauseMenu();
+
+if (gameState == STATE_MENU)
+    DrawMainMenu();
+
+if (gameState == STATE_GAMEOVER)
+    DrawGameOver();
+
+if (gameState == STATE_WIN)
+{
+    int fontSize = 80;
+
+    const char *text = "YOU WIN!";
+
+    int textWidth = MeasureText(text, fontSize);
+
+    /* Green transparent background */
+    DrawRectangle(
+        0,
+        0,
+        GetScreenWidth(),
+        GetScreenHeight(),
+        Fade(GREEN, 0.6f)
+    );
+
+    /* Main WIN text */
+    DrawText(
+        text,
+        (GetScreenWidth() - textWidth) / 2,
+        GetScreenHeight() / 2 - 180,
+        fontSize,
+        WHITE
+    );
+
+    /* Show remaining time */
+    char timeText[64];
+
+    sprintf(timeText, "TIME REMAINING: %.2f seconds",
+            timer.timeLeft);
+
+    int timeWidth = MeasureText(timeText, 30);
+
+    DrawText(
+        timeText,
+        (GetScreenWidth() - timeWidth) / 2,
+        GetScreenHeight() / 2 - 70,
+        30,
+        GOLD
+    );
+
+    if (!scoreSubmitted)
+    {
+        /* Name entry */
+        const char *nameLabel = "ENTER YOUR NAME";
+
+        int nameLabelWidth = MeasureText(nameLabel, 25);
+
+        DrawText(
+            nameLabel,
+            (GetScreenWidth() - nameLabelWidth) / 2,
+            GetScreenHeight() / 2,
+            25,
+            WHITE
+        );
+
+        /* Name input box */
+        DrawRectangle(
+            GetScreenWidth() / 2 - 250,
+            GetScreenHeight() / 2 + 45,
+            500,
+            55,
+            DARKGRAY
+        );
+
+        DrawText(
+            playerName,
+            GetScreenWidth() / 2 - 230,
+            GetScreenHeight() / 2 + 58,
+            25,
+            WHITE
+        );
+
+        DrawText(
+            "Press ENTER to submit",
+            GetScreenWidth() / 2 - 130,
+            GetScreenHeight() / 2 + 125,
+            20,
+            WHITE
+        );
+
+        DrawText(
+            "BACKSPACE to delete",
+            GetScreenWidth() / 2 - 120,
+            GetScreenHeight() / 2 + 155,
+            20,
+            LIGHTGRAY
+        );
+    }
+    else
+    {
+        DrawText(
+            "SCORE SAVED!",
+            GetScreenWidth() / 2 - 100,
+            GetScreenHeight() / 2 + 30,
+            30,
+            GREEN
+        );
+
+        DrawText(
+            "Press ESC to return to menu",
+            GetScreenWidth() / 2 - 140,
+            GetScreenHeight() / 2 + 90,
+            20,
+            WHITE
+        );
+    }
+}
 
         EndDrawing();
     }
