@@ -15,41 +15,38 @@ void UnloadMenu(void)
 
 void DrawMainMenu(int selectedOption)
 {
-    // Draw the menu background
-    DrawTexturePro(
-        menuBackground,
-        (Rectangle){
-            0,
-            0,
-            (float)menuBackground.width,
-            (float)menuBackground.height
-        },
-        (Rectangle){
-            0,
-            0,
-            (float)GetScreenWidth(),
-            (float)GetScreenHeight()
-        },
-        (Vector2){0, 0},
-        0.0f,
+    DrawMenuBackground(); //draws assets/menu_bg.png as background 
+
+    int screenWidth = GetScreenWidth();
+    int screenHeight = GetScreenHeight();
+
+    // Title
+    const char *title = "UNIVERSITY OF THE DEAD";
+    int titleSize = 45;
+    int titleWidth = MeasureText(title, titleSize);
+
+    DrawText(
+        title, //text
+        (screenWidth - titleWidth) / 2, //x position
+        screenHeight / 2 - 250, //y position
+        titleSize,
+        GOLD
+    );
+
+    // Main Menu heading
+    const char *heading = "MAIN MENU";
+    int headingSize = 35;
+    int headingWidth = MeasureText(heading, headingSize);
+
+    DrawText(
+        heading,
+        (screenWidth - headingWidth) / 2,
+        screenHeight / 2 - 170,
+        headingSize,
         WHITE
     );
 
-    // Dark overlay so menu text is easier to read
-    DrawRectangle(
-        0,
-        0,
-        GetScreenWidth(),
-        GetScreenHeight(),
-        Fade(BLACK, 0.35f)
-    );
-
-    DrawText("UNIVERSITY OF THE DEAD",
-             600, 200, 45, GOLD);
-
-    DrawText("MAIN MENU",
-             760, 300, 35, WHITE);
-
+    // Menu option colors
     Color startColor = WHITE;
     Color leaderboardColor = WHITE;
     Color exitColor = WHITE;
@@ -63,23 +60,72 @@ void DrawMainMenu(int selectedOption)
     if (selectedOption == 2)
         exitColor = GOLD;
 
-    DrawText("START GAME",
-             750, 400, 30, startColor);
+    // START GAME
+    const char *startText = "START GAME";
+    int startSize = 30;
+    int startWidth = MeasureText(startText, startSize);
 
-    DrawText("LEADERBOARD",
-             720, 460, 30, leaderboardColor);
+    DrawText(
+        startText,
+        (screenWidth - startWidth) / 2,
+        screenHeight / 2 - 30,
+        startSize,
+        startColor
+    );
 
-    DrawText("EXIT",
-             785, 520, 30, exitColor);
+    // LEADERBOARD
+    const char *leaderboardText = "LEADERBOARD";
+    int leaderboardSize = 30;
+    int leaderboardWidth = MeasureText(leaderboardText, leaderboardSize);
 
-    DrawText("Use UP / DOWN to select",
-             700, 620, 20, LIGHTGRAY);
+    DrawText(
+        leaderboardText,
+        (screenWidth - leaderboardWidth) / 2,
+        screenHeight / 2 + 30,
+        leaderboardSize,
+        leaderboardColor
+    );
 
-    DrawText("Press ENTER to confirm",
-             700, 650, 20, LIGHTGRAY);
+    // EXIT
+    const char *exitText = "EXIT";
+    int exitSize = 30;
+    int exitWidth = MeasureText(exitText, exitSize);
+
+    DrawText(
+        exitText,
+        (screenWidth - exitWidth) / 2,
+        screenHeight / 2 + 90,
+        exitSize,
+        exitColor
+    );
+
+    // Instructions
+    const char *instruction1 = "Use UP / DOWN to select";
+    const char *instruction2 = "Press ENTER to confirm";
+
+    int instructionSize = 20;
+
+    int instruction1Width = MeasureText(instruction1, instructionSize);
+    int instruction2Width = MeasureText(instruction2, instructionSize);
+
+    DrawText(
+        instruction1,
+        (screenWidth - instruction1Width) / 2,
+        screenHeight / 2 + 180,
+        instructionSize,
+        LIGHTGRAY
+    );
+
+    DrawText(
+        instruction2,
+        (screenWidth - instruction2Width) / 2,
+        screenHeight / 2 + 210,
+        instructionSize,
+        LIGHTGRAY
+    );
 }
 
-void DrawMenuBackground(void)
+void  DrawMenuBackground(void)
 {
     DrawTexturePro(
         menuBackground,

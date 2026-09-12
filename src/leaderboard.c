@@ -135,28 +135,116 @@ void LoadLeaderboard(void)
 
 void DrawLeaderboard(void)
 {
-    DrawText("LEADERBOARD", 700, 100, 40, GOLD);
+    int screenWidth = GetScreenWidth();
 
+    // Leaderboard title
+    const char *title = "LEADERBOARD";
+    int titleSize = 40;
+    int titleWidth = MeasureText(title, titleSize);
+
+    DrawText(
+        title,
+        (screenWidth - titleWidth) / 2,
+        100,
+        titleSize,
+        GOLD
+    );
+
+    // No scores
     if (leaderboardCount == 0)
     {
-        DrawText("No scores yet.", 750, 180, 25, WHITE);
+        const char *message = "No scores yet.";
+        int messageSize = 25;
+        int messageWidth = MeasureText(message, messageSize);
+
+        DrawText(
+            message,
+            (screenWidth - messageWidth) / 2,
+            180,
+            messageSize,
+            WHITE
+        );
+
         return;
     }
 
+    // Column centers
+   int rankCenter = screenWidth / 2 - 200;
+    int nameCenter = screenWidth / 2;
+    int timeCenter = screenWidth / 2 + 200;
+
+    int fontSize = 25;
+
+    // Column headings
+    const char *rankHeading = "RANK";
+    const char *nameHeading = "NAME";
+    const char *timeHeading = "TIME";
+
+    DrawText(
+        rankHeading,
+        rankCenter - MeasureText(rankHeading, fontSize) / 2,
+        150,
+        fontSize,
+        GOLD
+    );
+
+    DrawText(
+        nameHeading,
+        nameCenter - MeasureText(nameHeading, fontSize) / 2,
+        150,
+        fontSize,
+        GOLD
+    );
+
+    DrawText(
+        timeHeading,
+        timeCenter - MeasureText(timeHeading, fontSize) / 2,
+        150,
+        fontSize,
+        GOLD
+    );
+
+    // Leaderboard entries
     for (int i = 0; i < leaderboardCount; i++)
     {
-        char scoreText[100];
+        char rankText[20];
+        char timeText[50];
 
-        sprintf(scoreText,
-                "%d. %s    %.2f seconds",
-                i + 1,
-                leaderboard[i].name,
-                leaderboard[i].timeRemaining);
+        sprintf(rankText, "%d.", i + 1);
 
-        DrawText(scoreText,
-                 600,
-                 180 + i * 45,
-                 25,
-                 WHITE);
+        sprintf(
+            timeText,
+            "%.2f seconds",
+            leaderboard[i].timeRemaining
+        );
+
+        int y = 200 + i * 45; //shift ranking downwards
+
+        // Rank
+        DrawText(
+            rankText,
+            rankCenter - MeasureText(rankText, fontSize) / 2,
+            y,
+            fontSize,
+            WHITE
+        );
+
+        // Name
+        DrawText(
+            leaderboard[i].name,
+            nameCenter - MeasureText(leaderboard[i].name, fontSize) / 2,
+            y,
+            fontSize,
+            WHITE
+        );
+
+        // Time
+        DrawText(
+            timeText,
+            timeCenter - MeasureText(timeText, fontSize) / 2,
+            y,
+            fontSize,
+            WHITE
+        );
     }
 }
