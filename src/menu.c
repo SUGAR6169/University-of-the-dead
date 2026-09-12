@@ -1,8 +1,49 @@
 #include "menu.h"
 #include "raylib.h"
 
+static Texture2D menuBackground;
+
+void InitMenu(void)
+{
+    menuBackground = LoadTexture("assets/menu_bg.png");
+}
+
+void UnloadMenu(void)
+{
+    UnloadTexture(menuBackground);
+}
+
 void DrawMainMenu(int selectedOption)
 {
+    // Draw the menu background
+    DrawTexturePro(
+        menuBackground,
+        (Rectangle){
+            0,
+            0,
+            (float)menuBackground.width,
+            (float)menuBackground.height
+        },
+        (Rectangle){
+            0,
+            0,
+            (float)GetScreenWidth(),
+            (float)GetScreenHeight()
+        },
+        (Vector2){0, 0},
+        0.0f,
+        WHITE
+    );
+
+    // Dark overlay so menu text is easier to read
+    DrawRectangle(
+        0,
+        0,
+        GetScreenWidth(),
+        GetScreenHeight(),
+        Fade(BLACK, 0.35f)
+    );
+
     DrawText("UNIVERSITY OF THE DEAD",
              600, 200, 45, GOLD);
 
@@ -36,6 +77,33 @@ void DrawMainMenu(int selectedOption)
 
     DrawText("Press ENTER to confirm",
              700, 650, 20, LIGHTGRAY);
+}
+
+void DrawMenuBackground(void)
+{
+    DrawTexturePro(
+        menuBackground,
+        (Rectangle){
+            0, 0,
+            (float)menuBackground.width,
+            (float)menuBackground.height
+        },
+        (Rectangle){
+            0, 0,
+            (float)GetScreenWidth(),
+            (float)GetScreenHeight()
+        },
+        (Vector2){0, 0},
+        0.0f,
+        WHITE
+    );
+
+    DrawRectangle(
+        0, 0,
+        GetScreenWidth(),
+        GetScreenHeight(),
+        Fade(BLACK, 0.35f)
+    );
 }
 
 void DrawPauseMenu(void)

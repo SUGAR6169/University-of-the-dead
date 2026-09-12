@@ -7,8 +7,6 @@
 #include "menu.h"
 #include "leaderboard.h"
 
-// #define SCREEN_W 1920
-// #define SCREEN_H 1280
 
 // Game states
 typedef enum {
@@ -55,6 +53,7 @@ int main(void) {
     InitPlayer(&player);  
     InitTimer(&timer, 30.0f); // Set to 30 seconds initial countdown
     InitLeaderboard();
+    InitMenu();
 
     // Set up Camera2D — this follows the player
     Camera2D camera = {0};
@@ -279,24 +278,28 @@ int main(void) {
         ClearBackground(BLACK);
 
         // 1. WORLD SPACE SYSTEM (Camera Transformations Applied)
-        BeginMode2D(camera);
-            DrawMapBackground(camera); // Render campus graphic background asset
-            DrawZoneHighlights(time);  // Draw active neon interactive zones overlays
-            
-            if (gameState == STATE_PLAYING || gameState == STATE_PAUSED) {
-                DrawPlayer(&player);
-            }
+       if (gameState == STATE_PLAYING || gameState == STATE_PAUSED)
+        {
+                BeginMode2D(camera);
 
-            // Debug Geometry Rendering Mode
-            if (debugMode) {
-                for (int i = 0; i < wallCount; i++) {
+                    DrawMapBackground(camera);
+                    DrawZoneHighlights(time);
+
+                    DrawPlayer(&player);
+                
+
+        if (debugMode)
+        {
+            for (int i = 0; i < wallCount; i++) {
                     DrawRectangleLinesEx(walls[i], 3, RED);
-                }
-                for (int i = 0; i < zoneCount; i++) {
+                 }
+                    for (int i = 0; i < zoneCount; i++) {
                     DrawRectangleLinesEx(zones[i].rect, 2, BLUE);
                 }
-            }
-        EndMode2D();
+        }
+
+     EndMode2D();
+        }
 
         // 2. SCREEN SPACE SYSTEM (Static UI Text Overlay)
         if (debugMode) {
@@ -317,6 +320,9 @@ if (gameState == STATE_MENU)
 
 if (gameState == STATE_LEADERBOARD)
 {
+
+    DrawMenuBackground();
+    
     DrawLeaderboard();
 
     DrawText("Press ESC to return to menu",
@@ -445,6 +451,7 @@ if (gameState == STATE_WIN)
     // Context resource deallocation safe cleanup routines
     UnloadPlayer(&player);
     UnloadMapData();
+    UnloadMenu();
     CloseWindow();
     return 0;
 }
