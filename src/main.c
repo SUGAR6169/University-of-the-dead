@@ -346,14 +346,7 @@ if (gameState == STATE_WIN)
 
     int textWidth = MeasureText(text, fontSize);
 
-    /* Green transparent background */
-    DrawRectangle(
-        0,
-        0,
-        GetScreenWidth(),
-        GetScreenHeight(),
-        Fade(GREEN, 0.6f)
-    );
+    DrawMenuBackground();
 
     /* Main WIN text */
     DrawText(
