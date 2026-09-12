@@ -387,6 +387,7 @@ if (gameState == STATE_WIN)
     }
 
     // Context resource deallocation safe cleanup routines
+    UnloadPlayer(&player);
     UnloadMapData();
     CloseWindow();
     return 0;

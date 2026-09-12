@@ -1,6 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "raylib.h"
+
 // Player structure
 typedef struct {
     float x, y;           // Position on the map in pixels
@@ -9,6 +11,7 @@ typedef struct {
     float stamina;        // Stamina value 0.0f-100.0f
     int   isRunning;      // Boolean: 1 if sprinting, 0 if walking
     int   health;         // Player health state (1 = alive, 0 = dead)
+    Texture2D playerimage; //Texture2D is Raylib's type for an image that has been loaded onto the GPU ready to draw.
 } Player;
 
 // Make the global player instance visible to main.c and other files
@@ -22,5 +25,7 @@ void UpdatePlayer(Player *p, float delta);
 
 // Render player character visual placeholder
 void DrawPlayer(Player *p);
+
+void UnloadPlayer(Player *p);
 
 #endif // PLAYER_H
