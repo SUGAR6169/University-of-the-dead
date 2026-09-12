@@ -215,6 +215,7 @@ int main(void) {
     }
 
     // Context resource deallocation safe cleanup routines
+    UnloadPlayer(&player);
     UnloadMapData();
     CloseWindow();
     return 0;
