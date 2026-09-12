@@ -19,6 +19,8 @@ void InitPlayer(Player *p) {
     p->stamina = 100.0f;
     p->isRunning = 0;
     p->health = 1;
+    p->playerimage = LoadTexture("assets/player.png");
+    //LoadTexture reads the image file and sends it to the graphics card
 }
 
 // Handling keyboard inputs, stamina, and map collisions
@@ -66,18 +68,18 @@ void UpdatePlayer(Player *p, float delta) {
 
 // player character on screen
 void DrawPlayer(Player *p) {
-    DrawCircle(
-        (int)(p->x + p->w / 2),
-        (int)(p->y + p->h / 2),
-        p->w / 2, 
-        GREEN
-    );
-    
-    // Direction indicator yellow dot
-    DrawCircle(
-        (int)(p->x + p->w / 2),
-        (int)(p->y + p->h / 2 - p->h / 3),
-        5, 
-        YELLOW
-    );
+    Rectangle src = {0, 0, 
+                     (float)p->playerimage.width, 
+                     (float)p->playerimage.height};
+    float drawSize = 120.0f;
+float offset = (drawSize - p->w) / 2.0f;
+Rectangle dst = {p->x - offset, p->y - offset, drawSize, drawSize};
+//We want the image to extend equally on all four sides of the collision box 
+//that's why we did x-offset and y-offset to keep the collision box at the center
+    DrawTexturePro(p->playerimage, src, dst, 
+                   (Vector2){0, 0}, 0.0f, WHITE);
+}
+
+void UnloadPlayer(Player *p) {
+    UnloadTexture(p->playerimage);
 }
