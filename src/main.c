@@ -17,9 +17,12 @@ typedef enum {
     STATE_PAUSED,
     STATE_GAMEOVER,
     STATE_WIN,
+    STATE_LEADERBOARD
 } GameState;
 
 GameState gameState = STATE_MENU;
+
+int menuSelection = 0;
 
 // Global debug toggle
 int debugMode = 0;
@@ -75,22 +78,64 @@ int main(void) {
         // ── UPDATE SYSTEM ──────────────────────────────────
         switch (gameState) {
             case STATE_MENU:
-                if (IsKeyPressed(KEY_ENTER)) {
-                    gameState = STATE_PLAYING;
-                    camera.zoom = 0.65f; // Zoom in tightly on the player for active gameplay
 
-                     /* Start a fresh game */
-                    InitPlayer(&player);
-                    InitTimer(&timer, 30.0f);
+                if (IsKeyPressed(KEY_DOWN))
+                {
+                    menuSelection++;
 
-                    player.x = 3000.0f;
-                    player.y = 2200.0f;
-
-                    nameLength = 0;
-                    playerName[0] = '\0';
-                    scoreSubmitted = 0;
+                    if (menuSelection > 2)
+                        menuSelection = 0;
                 }
+
+                if (IsKeyPressed(KEY_UP))
+                {
+                    menuSelection--;
+
+                    if (menuSelection < 0)
+                        menuSelection = 2;
+                }
+
+                if (IsKeyPressed(KEY_ENTER))
+                {
+                    if (menuSelection == 0)
+                    {
+                        // Start Game
+                        gameState = STATE_PLAYING;
+
+                        camera.zoom = 0.65f;
+
+                        InitPlayer(&player);
+                        InitTimer(&timer, 30.0f);
+
+                        player.x = 3000.0f;
+                        player.y = 2200.0f;
+
+                        nameLength = 0;
+                        playerName[0] = '\0';
+                        scoreSubmitted = 0;
+                    }
+                    else if (menuSelection == 1)
+                    {
+                        // Open Leaderboard
+                        gameState = STATE_LEADERBOARD;
+                    }
+                   else if (menuSelection == 2)
+                    {
+                        CloseWindow();
+                        return 0;
+                    }
+                }
+
                 break;
+
+            case STATE_LEADERBOARD:
+
+                    if (IsKeyPressed(KEY_ESCAPE))
+                    {
+                        gameState = STATE_MENU;
+                    }
+
+                    break;
 
             case STATE_PLAYING: {
                 // Toggle Debug Overlay Mode
@@ -261,14 +306,25 @@ int main(void) {
         }
 
         // Route render pipeline execution based on current structural game state
-        if (gameState == STATE_PLAYING)
+ if (gameState == STATE_PLAYING)
     DrawHUD(&player, &timer);
 
 if (gameState == STATE_PAUSED)
     DrawPauseMenu();
 
 if (gameState == STATE_MENU)
-    DrawMainMenu();
+    DrawMainMenu(menuSelection);
+
+if (gameState == STATE_LEADERBOARD)
+{
+    DrawLeaderboard();
+
+    DrawText("Press ESC to return to menu",
+             650,
+             700,
+             20,
+             LIGHTGRAY);
+}    
 
 if (gameState == STATE_GAMEOVER)
     DrawGameOver();
