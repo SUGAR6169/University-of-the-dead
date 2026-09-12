@@ -6,8 +6,8 @@
 #include "hud.h"
 #include "menu.h"
 
-#define SCREEN_W 1920
-#define SCREEN_H 1280
+// #define SCREEN_W 1920
+// #define SCREEN_H 1280
 
 // Game states
 typedef enum {
@@ -24,8 +24,18 @@ GameState gameState = STATE_MENU;
 int debugMode = 0;
 
 int main(void) {
-    InitWindow(SCREEN_W, SCREEN_H, "University of the Dead");
-    SetTargetFPS(60); // 60 FPS provides stable physics processing for bounding boxes
+
+    // Start the game directly in fullscreen mode
+        SetConfigFlags(FLAG_FULLSCREEN_MODE);
+
+        // Create the fullscreen game window
+        InitWindow(0, 0, "University of the Dead");
+
+        // Get the actual screen resolution being used
+        int screenWidth = GetScreenWidth();
+        int screenHeight = GetScreenHeight();
+
+        SetTargetFPS(120);
 
     // Declare core game objects
     Player player;
@@ -39,7 +49,10 @@ int main(void) {
     // Set up Camera2D — this follows the player
     Camera2D camera = {0};
     camera.zoom   = 0.25f;  // Zoomed out to see the map layout on the menu
-    camera.offset = (Vector2){SCREEN_W / 2.0f, SCREEN_H / 2.0f};
+    camera.offset = (Vector2){
+        screenWidth / 2.0f,
+        screenHeight / 2.0f
+        };
     camera.target = (Vector2){MAP_WIDTH / 2.0f, MAP_HEIGHT / 2.0f}; // Centers the map on the menu
 
     // Player starts at Main Gate position on the map
@@ -51,11 +64,7 @@ int main(void) {
         float time  = GetTime();
 
         // ── GLOBAL HOTKEYS ──────────────────────────────────
-        // Toggle fullscreen display resolution parameters dynamically
-        if (IsKeyPressed(KEY_F11)) {
-            ToggleFullscreen();
-        }
-
+       
         // ── UPDATE SYSTEM ──────────────────────────────────
         switch (gameState) {
             case STATE_MENU:
@@ -77,10 +86,11 @@ int main(void) {
 
                 // ── ADVANCED CAMERA BOUNDARY CLAMPING ────────────────────
                 // Prevents the camera from viewing past the boundaries of the IUT map image
-                float minX = SCREEN_W / (2.0f * camera.zoom);
-                float maxX = MAP_WIDTH - (SCREEN_W / (2.0f * camera.zoom));
-                float minY = SCREEN_H / (2.0f * camera.zoom);
-                float maxY = MAP_HEIGHT - (SCREEN_H / (2.0f * camera.zoom));
+               float minX = screenWidth / (2.0f * camera.zoom);
+               float maxX = MAP_WIDTH - (screenWidth / (2.0f * camera.zoom));
+
+                float minY = screenHeight / (2.0f * camera.zoom);
+                float maxY = MAP_HEIGHT - (screenHeight / (2.0f * camera.zoom));
 
                 if (minX > maxX) {
                     camera.target.x = MAP_WIDTH / 2.0f;
@@ -191,7 +201,7 @@ int main(void) {
         if (debugMode) {
             char posText[64];
             sprintf(posText, "POS: %.0f, %.0f | ZOOM: %.2f", player.x, player.y, camera.zoom);
-            DrawText(posText, 10, SCREEN_H - 30, 16, YELLOW);
+            DrawText(posText, 10, screenHeight - 30, 16, YELLOW);
         }
 
         // Route render pipeline execution based on current structural game state
