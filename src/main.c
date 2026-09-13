@@ -208,7 +208,11 @@ int main(void) {
                 if (timer.timeLeft <= 0.0f) gameState = STATE_GAMEOVER;
 
                 // Pause State Switch
-                if (IsKeyPressed(KEY_ESCAPE)) gameState = STATE_PAUSED;
+                if (IsKeyPressed(KEY_ESCAPE))
+                    {
+                        menuSelection = 0;
+                        gameState = STATE_MENU;
+                    }
                 break;
             }
 
