@@ -6,6 +6,7 @@
 #include "hud.h"
 #include "menu.h"
 #include "leaderboard.h"
+#include "zombie.h"
 
 
 // Game states
@@ -55,6 +56,16 @@ int main(void) {
     InitPlayer(&player);  
     InitTimer(&timer, 30.0f); // Set to 30 seconds initial countdown
     InitLeaderboard();
+    InitZombies();
+    SpawnZombie();
+    SpawnZombie();
+    SpawnZombie();
+    SpawnZombie();
+    SpawnZombie();
+    SpawnZombie();
+    SpawnZombie();
+    SpawnZombie();
+    SpawnZombie();
     InitMenu();
 
     // Set up Camera2D — this follows the player
@@ -190,6 +201,12 @@ int main(void) {
                 // 3. Update Player Physics (Movement handling & wall collisions)
                 UpdatePlayer(&player, delta);
 
+                UpdateZombies(&player, delta);
+
+                if (player.health == 0) {
+                    gameState = STATE_GAMEOVER;
+                }
+
                 // 4. Zone Interaction & Timer Management Logic
                 Rectangle pRect = {player.x, player.y, player.w, player.h};
                 Zone *currentZone = GetCurrentZone(pRect);
@@ -295,6 +312,7 @@ int main(void) {
                     DrawZoneHighlights(time);
 
                     DrawPlayer(&player);
+                    DrawZombies();
                 
 
         if (debugMode)
@@ -452,6 +470,7 @@ if (gameState == STATE_WIN)
 
     // Context resource deallocation safe cleanup routines
     UnloadPlayer(&player);
+    UnloadZombies();
     UnloadMapData();
     UnloadMenu();
     CloseWindow();
