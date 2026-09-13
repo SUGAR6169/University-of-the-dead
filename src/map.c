@@ -47,7 +47,7 @@ void LoadMapData(void) {
 
     // Outer boundary walls (campus perimeter)
     AddWall(0,    0,    MAP_WIDTH, 40);   // top border
-    AddWall(0,    MAP_HEIGHT-150, MAP_WIDTH, 40); // bottom border
+    AddWall(0,    MAP_HEIGHT-300, MAP_WIDTH, 40); // bottom border
     AddWall(80,    0,    40, MAP_HEIGHT);  // left border
     AddWall(MAP_WIDTH-420, 0, 40, MAP_HEIGHT);    // right border
 
