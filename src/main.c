@@ -214,16 +214,14 @@ int main(void) {
                 break;
 
             // ── GAME OVER SCREEN ──
-            case STATE_GAMEOVER: {
-                int fontSize = 80;
-                const char* text = "GAME OVER";
-                int textWidth = MeasureText(text, fontSize);
-                
-                // Draw centered on screen
-                DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(RED, 0.6f));
-                DrawText(text, (GetScreenWidth() - textWidth) / 2, GetScreenHeight() / 2 - 40, fontSize, WHITE);
-                break;
-            }
+            //The actual DrawGameOver() at the bottom is inside BeginDrawing() and is working correctly
+            //So replaced the unnecessary case state_gameover
+            case STATE_GAMEOVER:
+    if (IsKeyPressed(KEY_ENTER)) {
+        gameState = STATE_MENU;
+        menuSelection = 0;
+    }
+    break;
 
            // ── WIN STATE ──
             case STATE_WIN: {
