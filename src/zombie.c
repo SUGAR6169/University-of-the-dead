@@ -42,17 +42,9 @@ void UpdateZombies(Player *p, float delta) {
         float dy = (p->y + p->h / 2) - (zombies[i].y + zombies[i].h / 2);
         float distance = sqrtf(dx * dx + dy * dy);
 
-       if (distance > 0) {
-    float newX = zombies[i].x + (dx / distance) * zombies[i].speed * delta;
-    float newY = zombies[i].y + (dy / distance) * zombies[i].speed * delta;
-
-    Rectangle newRect = {newX, newY, zombies[i].w, zombies[i].h};
-    Zone *zone = GetCurrentZone(newRect);
-
-    if (zone == NULL || zone->type != ZONE_MOSQUE) {
-        zombies[i].x = newX;
-        zombies[i].y = newY;
-    }
+      if (distance > 0) {
+    zombies[i].x += (dx / distance) * zombies[i].speed * delta;
+    zombies[i].y += (dy / distance) * zombies[i].speed * delta;
 }
 
         Rectangle zRect = {zombies[i].x, zombies[i].y, 
