@@ -105,6 +105,10 @@ int main(void) {
 
                         camera.zoom = 0.65f;
 
+                        UnloadPlayer(&player);
+                        //initplayer has been already called before once
+                        //before calling it again freeing memory is must
+
                         InitPlayer(&player);
                         InitTimer(&timer, 30.0f);
 
