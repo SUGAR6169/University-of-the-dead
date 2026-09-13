@@ -159,7 +159,27 @@ void DrawPauseMenu(void)
 
 void DrawGameOver(void)
 {
-    DrawText("GAME OVER", 400, 300, 30, RED);
+    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(),
+                  Fade(RED, 0.6f));
+
+    const char *text = "GAME OVER";
+    int fontSize = 80;
+    int textWidth = MeasureText(text, fontSize);
+
+    DrawText(text,
+             (GetScreenWidth() - textWidth) / 2,
+             GetScreenHeight() / 2 - 40,
+             fontSize,
+             WHITE);
+
+    const char *prompt = "Press ENTER to return to menu";
+    int promptWidth = MeasureText(prompt, 20);
+
+    DrawText(prompt,
+             (GetScreenWidth() - promptWidth) / 2,
+             GetScreenHeight() / 2 + 80,
+             20,
+             LIGHTGRAY);
 }
 
 void DrawWinScreen(void)
