@@ -26,7 +26,7 @@ void SpawnZombie(void) {
             zombies[i].y      = rand() % (MAP_HEIGHT - 100) + 50;
             zombies[i].w      = 40;
             zombies[i].h      = 40;
-            zombies[i].speed  = 120.0f;
+            zombies[i].speed  = 150.0f;
             zombies[i].active = 1;
             zombieCount++;
             return;
