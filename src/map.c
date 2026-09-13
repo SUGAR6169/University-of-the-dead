@@ -47,48 +47,51 @@ void LoadMapData(void) {
 
     // Outer boundary walls (campus perimeter)
     AddWall(0,    0,    MAP_WIDTH, 40);   // top border
-    AddWall(0,    MAP_HEIGHT-40, MAP_WIDTH, 40); // bottom border
-    AddWall(0,    0,    40, MAP_HEIGHT);  // left border
-    AddWall(MAP_WIDTH-40, 0, 40, MAP_HEIGHT);    // right border
+    AddWall(0,    MAP_HEIGHT-150, MAP_WIDTH, 40); // bottom border
+    AddWall(80,    0,    40, MAP_HEIGHT);  // left border
+    AddWall(MAP_WIDTH-420, 0, 40, MAP_HEIGHT);    // right border
 
     // Academic Building 1 (large central building)
-    AddWall(980,  580, 680, 180);
+    AddWall(1190,  550, 880, 180);
 
     // Academic Building 2 (top center)
-    AddWall(1300, 130, 680, 180);
+    AddWall(1400, 200, 680, 180);
 
     // Academic Building 3 (top left area)
-    AddWall(540,  130, 680, 180);
-
-    // Academic Building 3 duplicate (second block)
-    AddWall(330,  360, 460, 140);
+    AddWall(640,  250, 680, 180);
 
     // North Hall (top right dorm)
-    AddWall(2160, 130, 480, 160);
+    AddWall(2315, 200, 600, 160);
 
     // South Hall (right dorm)
-    AddWall(2200, 520, 480, 160);
-
-    // Lab 1
-    AddWall(350,  490, 380, 140);
+    AddWall(2400, 530, 600, 160);
 
     // Lab 2
-    AddWall(350,  700, 380, 140);
+    AddWall(400,  770, 380, 180);
+
+    // Lab 1
+    AddWall(430,  510, 400, 150);
 
     // Administration Building
-    AddWall(870,  720, 440, 200);
+    AddWall(1120,  920, 440, 200);
 
     // Cafeteria + Library
-    AddWall(1380, 720, 440, 200);
+    AddWall(1780, 920, 500, 200);
 
     // CDS Building
-    AddWall(2180, 730, 320, 180);
+    AddWall(2600, 900, 320, 180);
 
     // IUT Auditorium
-    AddWall(820,  1000, 440, 200);
+    AddWall(880,  1300, 440, 300);
+
+    //IUT pond
+    AddWall(850,  1650, 380, 350);
+
+    //IUT pond
+    AddWall(1300,  1900, 530, 300);
 
     // Female Hall of Residence (bottom left)
-    AddWall(90,   1700, 420, 360);
+    AddWall(90, 1800, 420, 360);
 
     // ── INTERACTIVE ZONES ────────────────────────────────────
     // These are areas the player ENTERS — not walls
@@ -126,7 +129,7 @@ void LoadMapData(void) {
     AddZone(90,   130,  320, 160, ZONE_MEDICAL,   "Medical Center");
 
 // Exit (Top left corner near Medical Center)
-AddZone(50, 50, 200, 200, ZONE_EXIT, "Top Left Exit");
+AddZone(300, 230, 200, 200, ZONE_EXIT, "Top Left Exit");
 }
 
 void DrawMapBackground(Camera2D cam) {
