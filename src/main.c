@@ -61,8 +61,8 @@ int main(void) {
     Camera2D camera = {0};
     camera.zoom   = 0.25f;  // Zoomed out to see the map layout on the menu
     camera.offset = (Vector2){
-        screenWidth / 2.0f,
-        screenHeight / 2.0f
+        screenWidth / 2.0f, //x cordinate
+        screenHeight / 2.0f //y co 
         };
     camera.target = (Vector2){MAP_WIDTH / 2.0f, MAP_HEIGHT / 2.0f}; // Centers the map on the menu
 
@@ -179,7 +179,7 @@ int main(void) {
                 // 2. Camera Zoom Controls via Mouse Wheel
                 camera.zoom += GetMouseWheelMove() * 0.02f;
                 
-                // Keep user zoom scale configurations within safe limits
+                // Keep user zoom scale configurations within constraints
                 if (camera.zoom < 0.3f)  camera.zoom = 0.3f;
                 if (camera.zoom > 1.0f)  camera.zoom = 1.0f;
 

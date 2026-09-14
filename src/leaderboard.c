@@ -20,7 +20,7 @@ void InitLeaderboard(void)
 
 void AddLeaderboardScore(const char *name, float timeRemaining)
 {
-    if (leaderboardCount < MAX_LEADERBOARD_ENTRIES)
+    if (leaderboardCount < MAX_LEADERBOARD_ENTRIES) //handles max entries
     {
         strncpy(leaderboard[leaderboardCount].name,
                 name,

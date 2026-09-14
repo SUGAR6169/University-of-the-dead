@@ -51,6 +51,7 @@ void DrawMainMenu(int selectedOption)
     Color leaderboardColor = WHITE;
     Color exitColor = WHITE;
 
+    //Highlight the selected option 
     if (selectedOption == 0)
         startColor = GOLD;
 
@@ -66,9 +67,9 @@ void DrawMainMenu(int selectedOption)
     int startWidth = MeasureText(startText, startSize);
 
     DrawText(
-        startText,
-        (screenWidth - startWidth) / 2,
-        screenHeight / 2 - 30,
+        startText, //text 
+        (screenWidth - startWidth) / 2, //x
+        screenHeight / 2 - 30, //y
         startSize,
         startColor
     );
