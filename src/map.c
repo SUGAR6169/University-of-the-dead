@@ -47,7 +47,7 @@ void LoadMapData(void) {
 
     // Outer boundary walls (campus perimeter)
     AddWall(0,    0,    MAP_WIDTH, 40);   // top border
-    AddWall(0,    MAP_HEIGHT-150, MAP_WIDTH, 40); // bottom border
+    AddWall(0,    MAP_HEIGHT-300, MAP_WIDTH, 40); // bottom border
     AddWall(80,    0,    40, MAP_HEIGHT);  // left border
     AddWall(MAP_WIDTH-420, 0, 40, MAP_HEIGHT);    // right border
 
@@ -97,7 +97,7 @@ void LoadMapData(void) {
     // These are areas the player ENTERS — not walls
 
     // Mosque interior (timer freezes here)
-    AddZone(1310, 1160, 840, 560, ZONE_MOSQUE,    "Mosque");
+    AddZone(1500, 1350, 440, 350, ZONE_MOSQUE,    "Mosque");
 
     // Academic buildings (collectibles)
     AddZone(980,  580,  680, 180, ZONE_CLASSROOM, "Academic Building 1");
